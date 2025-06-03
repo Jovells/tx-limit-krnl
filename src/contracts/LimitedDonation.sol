@@ -66,7 +66,7 @@ contract LimitedDonation is KRNL {
         uint256 amount
     ) 
         external 
-        onlyAuthorized(krnlPayload, abi.encode(msg.sender, amount))
+        onlyAuthorized(krnlPayload, abi.encode(amount))
         returns (bool) 
     {
         // Decode response from kernel to check transaction limit

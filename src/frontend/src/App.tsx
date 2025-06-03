@@ -95,8 +95,9 @@ function App() {
     setIsExecutingKernel(true);
     try {
 
+    
   const functionParams = abiCoder.encode(["uint256"], [amount]);
-  const parameterForKernel = abiCoder.encode(["address", "uint256"], [`${address}`, amount]);
+  const parameterForKernel = abiCoder.encode(["address", "uint256"], [address, amount]);
 
   const kernelRequestData = {
         senderAddress: address,
@@ -110,7 +111,7 @@ function App() {
     console.log({KRNL_ENTRY_ID, KRNL_ACCESS_TOKEN, kernelRequestData, functionParams})
 
    
-
+//@ts-expect-error sdk issue
       const krnlPayload = await provider.executeKernels(KRNL_ENTRY_ID, KRNL_ACCESS_TOKEN, kernelRequestData, functionParams);
       console.log({krnlPayload});
 
@@ -131,9 +132,11 @@ function App() {
       const resParams = decodedParams[0][0][1];
       const resResponse = decodedResponse[0][0][1];
 
-      const decodedResParams = abiCoder.decode( ["address", "uint256"], resParams)
-      const [addr, amt] = decodedResParams;
-      console.log({addr, amt: formatEther(amt)});
+      console.log({resParams, resResponse})
+
+      const decodedResParams = abiCoder.decode( ["uint256"], resParams)
+      const decodedResResponse = abiCoder.decode( ["bytes"], resResponse, true)
+      console.log({decodedResParams, decodedResResponse})
 
      
 
